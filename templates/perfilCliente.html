@@ -1,0 +1,33 @@
+{%extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{%block title %} Meu perfil - UniPag {% endblock %}
+
+{%block content %}
+
+<div class="offset-1 col-10 list-div">
+    <h1>Meu Perfil</h1>
+    <form method="post">
+        {% csrf_token %}
+        <tr>
+            <p><td>Razão social: {{ cliente.razao_social }}</td>
+            <p><td>CNPJ: {{ cliente.cnpj }}</td></p>
+            <p><td>Email: {{ cliente.email }}</td></p>
+            <p><td>Telefone: {{ cliente.telefone }}</td></p>
+            <p><td>Senha: {{ cliente.senha }}</td></p>
+            <p><td>Logradouro: {{ cliente.logradouro }}</td></p>
+            <p><td>Numero: {{ cliente.numero }}</td></p>
+            <p><td>Bairro: {{ cliente.bairro }}</td></p>
+            <p><td>Cep: {{ cliente.cep }}</td></p>
+            <p><td>Cidade: {{ cliente.cidade }}</td></p>
+            <p><td>UF: {{ cliente.uf }}</td></p>
+            <p><td>Complemento: {{ cliente.complemento }}</td></p>
+        </tr>
+
+
+        <p><a class="btn btn-success btn-lg" href="editarCliente/<int:id>" role="button">Editar Perfil &raquo;</a></p>
+    </form>
+</div>
+
+{% endblock %}

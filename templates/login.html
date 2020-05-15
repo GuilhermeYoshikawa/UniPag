@@ -1,0 +1,30 @@
+
+  {%extends 'base.html' %}
+
+  {%block title %} Login - UniPag {% endblock %}
+
+  {%block content %}
+
+
+ <div class="container mt-4">
+      <form method="post">{% csrf_token %}
+        <h2>Login</h2>
+        <div class="form-group">
+          <label for="email">Usuário</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha">
+        </div>
+
+        <div>
+          <button value="logar" type="submit" class="btn btn-success">Entrar</button>
+        </div>
+
+      </form>
+    </div>
+
+
+  {% endblock %}

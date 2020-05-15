@@ -1,0 +1,19 @@
+{%extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{%block title %} Editar Perfil - UniPag {% endblock %}
+
+{%block content %}
+
+<div class="offset-1 col-10 list-div">
+    <h1>Editar Perfil</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-primary" value="Salvar">
+        <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
+    </form>
+</div>
+
+{% endblock %}

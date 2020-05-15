@@ -1,0 +1,59 @@
+{%extends 'base.html' %}
+
+{%block title %} Home - UniPag {% endblock %}
+
+{%block content %}
+
+<div id="main" class="container-fluid">
+    <div id="top" class="row">
+
+    <div class="offset-1 col-md-3">
+        <h2>Compras</h2>
+    </div>
+
+    <div class="col-md-3">
+         <form method="GET" id="search-form">
+            <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar produto">
+            <i class="fas fa-search" id="search-btn"></i>
+        </form>
+    </div>
+
+</div> <!-- /#top -->
+
+     <div id="list" class="row">
+
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped" cellspacing="0" cellpadding="0">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Codigo Interno</th>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                    <th>Quantidade</th>
+                    <th class="actions">Ações</th>
+                 </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{produto.id_produto}}</td>
+                    <td>{{produto.codigo_interno}}</td>
+                    <td>{{produto.nome}}</td>
+                    <td>R$ {{produto.valor}}</td>
+                    <td>{{produto.quantidade}}</td>
+                    <td class="actions">
+                        <a type="button" href="/produto/{{produto.id_produto}}" class="btn btn-outline-success">Visualizar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+         </table>
+
+     </div>
+ </div> <!-- /#list -->
+</div>
+
+{% endblock %}
