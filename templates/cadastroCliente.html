@@ -8,19 +8,94 @@
   {%block content %}
 
   <div class="row">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-md-10 offset-1 pt-3">
+      <h1>Crie sua conta na UniPag!</h1>
+      <p>Criando sua conta na UniPag você terá um controle total das vendas realizadas.</p>
+    </div>
+    <div class="col-md-10 offset-md-1 pt-3">
       <div class="card auth-card">
         <div class="card-body">
 
-        <h1>Cadastro de Cliente</h1>
-
           <form method="post">
             {% csrf_token %}
-            {{ form|crispy }}
-            <div class="card-title text-center">
-                <button type="submit" class="btn btn-success">Cadastrar</button>
-                <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="id_email">E-mail</label>
+                <span class="asteriskField">*</span>
+                <input type="email" class="form-control" id="id_email" placeholder="Insira seu e-mail.">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="id_senha">Senha</label>
+                <span class="asteriskField">*</span>
+                <input type="password" class="form-control" id="id_senha" placeholder="Crie uma senha.">
+              </div>
             </div>
+
+            <div class="form-group">
+              <label for="id_razao_social">Razão Social</label>
+              <span class="asteriskField">*</span>
+              <input type="text" class="form-control" id="id_razao_social" placeholder="Insira o nome da empresa.">
+            </div>
+
+            <div class="form-group">
+              <label for="id_cnpj">CNPJ</label>
+              <span class="asteriskField">*</span>
+              <input type="text" class="form-control" id="id_cnpj" placeholder="Ex: 253524342">
+            </div>
+
+            <div class="form-group">
+              <label for="id_telefone">Número do celular</label>
+              <span class="asteriskField">*</span>
+              <input type="text" class="form-control" id="id_telefone" placeholder="Ex: 11943432145">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-10">
+                <label for="id_logradouro">Endereço</label>
+                <span class="asteriskField">*</span>
+                <input type="text" class="form-control" id="id_logradouro" placeholder="Insira seu endereço">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="id_numero">Número</label>
+                <span class="asteriskField">*</span>
+                <input type="text" class="form-control" id="id_numero">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="id_bairro">Bairro</label>
+              <span class="asteriskField">*</span>
+              <input type="text" class="form-control" id="id_bairro" placeholder="Ex: Jardim Ipiranga">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="id_cidade">Cidade</label>
+                <span class="asteriskField">*</span>
+                <input type="text" class="form-control" id="id_cidade" placeholder="São Paulo">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="id_uf">Estado</label>
+                <span class="asteriskField">*</span>
+                <input type="text" class="form-control" id="id_uf" placeholder="SP">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="id_cep">CEP</label>
+                <span class="asteriskField">*</span>
+                <input type="text" class="form-control" id="id_cep">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="id_complemento">Complemento</label>
+              <input type="text" class="form-control" id="id_complemento">
+            </div>
+
+            <div class="card-title text-center pt-4">
+              <button type="submit" class="btn btn-success">Cadastrar</button>
+              <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
+            </div>
+
           </form>
 
          </div>

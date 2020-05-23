@@ -1,17 +1,147 @@
-
 {%extends 'base.html' %}
+
+{% load crispy_forms_tags %}
 
 {%block title %} Editar Perfil - UniPag {% endblock %}
 
 {%block content %}
 
 <div class="offset-1 col-10 list-div">
-    <h1>Meu Perfil</h1>
+    <h1>Editar Perfil</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-warning" value="Salvar">
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-primary" value="Salvar">
+        <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
     </form>
 </div>
+
+
+<div class="offset-1 col-10 list-div pt-3">
+    <h1>Editar Perfil</h1>
+</div>
+
+
+<div class="col-md-10 offset-md-1 pt-3">
+      <div class="card auth-card">
+        <div class="card-body">
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="id_nome">Nome</label>
+                <input type="text" name="nome" value={{consumidor.nome}} maxlength="80" class="textinput textInput form-control" required id="id_nome" disabled>
+              </div>
+			  <div class="form-group col-md-6">
+                <label for="id_sobrenome">Sobrenome</label>
+                <input type="text" name="sobrenome" value={{consumidor.sobrenome}} maxlength="80" class="textinput textInput form-control" required id="id_sobrenome" disabled>
+              </div>
+			  <div class="form-group col-md-6">
+                <label for="id_email">E-mail</label>
+                <input type="text" name="email" value={{consumidor.email}} maxlength="80" class="textinput textInput form-control" required id="id_email">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="id_senha">Confirme sua senha</label>
+                <input type="password" class="form-control" id="id_senha">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="id_cpf">CPF</label>
+              <input type="text" name="cpf" value={{consumidor.cpf}} maxlength="80" class="textinput textInput form-control" required id="id_cpf" disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="id_nascimento">Nascimento</label>
+              <input type="text" name="nascimento" id="id_nascimento" class="dateinput form-control" value={{consumidor.nascimento}} disabled>
+            </div>
+
+            <div class="form-group">
+              <label for="id_sexo">Sexo</label>
+              <input type="text" name="sexo" value={{consumidor.sexo}} maxlength="1" class="textinput textInput form-control" required id="id_sexo" disabled>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-10">
+                <label for="id_logradouro">Endereço</label>
+                <input type="text" name="logradouro" value={{consumidor.logradouro}} maxlength="50" class="textinput textInput form-control" id="id_logradouro">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="id_numero">Número</label>
+                <input type="text" name="numero" value={{consumidor.numero}} maxlength="80" class="textinput textInput form-control" required id="id_numero">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="id_bairro">Bairro</label>
+              <input type="text" name="bairro" value={{consumidor.bairro}} maxlength="50" class="textinput textInput form-control" required id="id_bairro">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="id_cidade">Cidade</label>
+                <input type="text" name="cidade" value={{consumidor.cidade}} maxlength="80" class="textinput textInput form-control" required id="id_cidade">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="id_uf">Estado</label>
+                <input type="text" name="uf" value={{consumidor.uf}} maxlength="80" class="textinput textInput form-control" required id="id_uf">
+              </div>
+              <div class="form-group col-md-2">
+                <label for="id_cep">CEP</label>
+                <input type="text" name="cep" value={{consumidor.cep}} maxlength="80" class="textinput textInput form-control" required id="id_cep">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="id_complemento">Complemento</label>
+              <input type="text" name="complemento" value={{consumidor.complemento}} maxlength="20" class="textinput textInput form-control" id="id_complemento">
+            </div>
+
+			<div class="form-group">
+              <label for="id_telefone">Número do celular</label>
+              <input type="text" name="telefone" value={{consumidor.telefone}} maxlength="20" class="textinput textInput form-control" id="id_telefone">
+            </div>
+
+			<div class="form-group">
+              <label for="id_nacionalidade">Nacionalidade</label>
+              <input type="text" name="nacionalidade" value={{consumidor.nacionalidade}} maxlength="20" class="textinput textInput form-control" id="id_nacionalidade" disabled>
+            </div>
+
+			<div class="form-group">
+              <label for="id_numero_cartao">Número do Cartão</label>
+              <input type="text" name="numero_cartao" value={{consumidor.numero_cartao}} maxlength="20" class="textinput textInput form-control" id="id_numero_cartao">
+            </div>
+
+			<div class="form-group">
+              <label for="id_codigo_seguranca">Código de segurança</label>
+              <input type="text" name="codigo_seguranca" value={{consumidor.codigo_seguranca}} maxlength="20" class="textinput textInput form-control" id="id_codigo_seguranca">
+            </div>
+
+			<div class="form-group">
+              <label for="id_titular_cartao">Titular do Cartão</label>
+              <input type="text" name="titular_cartao" value={{consumidor.titular_cartao}} maxlength="20" class="textinput textInput form-control" id="id_titular_cartao">
+            </div>
+
+			<div class="form-group">
+              <label for="id_validade_cartao">Validade do Cartão</label>
+              <input type="text" name="validade_cartao" value={{consumidor.validade_cartao}} maxlength="20" class="dateinput form-control" id="id_validade_cartao">
+            </div>
+
+			<div class="form-group">
+              <label for="id_limite_compra">Limite de Compra</label>
+              <input type="text" name="limite_compra" value=R${{consumidor.limite_compra}} maxlength="20" class="textinput textInput form-control" id="id_limite_compra">
+            </div>
+
+            <div class="card-title text-left pt-3">
+                <input type="submit" class="btn btn-success" value="Salvar">
+                <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+</div>
+
 
 {% endblock %}

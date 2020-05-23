@@ -4,10 +4,12 @@
 
 {%block content %}
 
-<div id="main" class="container-fluid">
+<div class="container pt-4">
  <h3 class="page-header">Visualizar Pedido: ID #{{pedido.id_pedido}}</h3>
+</div>
 
-	<div class="row">
+<div id="main" class="container pt-4">
+	<div class="row pt-4">
 		<div class="col-md-4">
 			<p><strong>Código Interno do Produto</strong></p>
 			<p>{{produto.codigo_interno}}</p>
@@ -20,32 +22,28 @@
 			<p><strong>Valor do Produto</strong></p>
 			<p>R$ {{produto.valor}}</p>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 pt-3">
 			<p><strong>Categoria</strong></p>
 			<p>{{produto.categoria}}</p>
 		</div>
-        <div class="col-md-4">
-			<p><strong>Quantidade</strong></p>
-			<p>{{produto.quantidade}}</p>
-		</div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 pt-3">
 			<p><strong>Data da Compra</strong></p>
 			<p>{{pedido.data_pedido}}</p>
 		</div>
-        <div class="col-md-4">
+        <div class="col-md-4 pt-3">
 			<p><strong>Valor da Compra</strong></p>
 			<p>R$ {{pedido.valor}}</p>
 		</div>
-        <div class="col-md-4">
+        <div class="col-md-4 pt-3">
 			<p><strong>Parcela</strong></p>
 			<p>{{pedido.parcela}}x</p>
 		</div>
-        <div class="col-md-4">
+        <div class="col-md-4 pt-3">
 			<p><strong>Forma de Pagamento</strong></p>
 			<p>{{pedido.forma_pagamento}}</p>
 		</div>
-        <div class="col-md-4">
+        <div class="col-md-4 pt-3">
 			<p><strong>Status da Compra</strong></p>
 			<p>{{pedido.status_pedido}}</p>
 		</div>
@@ -54,7 +52,7 @@
 	<hr />
 
 	<div id="actions" class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 pt-3">
 			<input type="button" value="Voltar" class="btn btn-primary" onClick="history.go(-1)">
 		</div>
 	</div>

@@ -190,8 +190,8 @@ class Pedido(models.Model):
     forma_pagamento = models.CharField(max_length=15, blank=True, null=True)
     status_pedido = models.CharField(max_length=20, blank=True, null=True)
     data_pedido = models.DateField(blank=True, null=True)
-    id_consumidor = models.IntegerField()
-    id_cliente = models.IntegerField()
+    consumidor_id_consumidor = models.ForeignKey(Consumidor, models.DO_NOTHING, db_column='consumidor_id_consumidor')
+    cliente_id_cliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='cliente_id_cliente')
 
     class Meta:
         managed = False
@@ -199,6 +199,7 @@ class Pedido(models.Model):
 
 
 class PedidoProduto(models.Model):
+    quantidade = models.IntegerField()
     id_produto = models.ForeignKey('Produto', models.DO_NOTHING, db_column='id_produto')
     id_pedido = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='id_pedido')
 
@@ -213,7 +214,6 @@ class Produto(models.Model):
     nome = models.CharField(max_length=30)
     valor = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     categoria = models.CharField(max_length=20, blank=True, null=True)
-    quantidade = models.IntegerField()
     id_cliente = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='id_cliente')
 
     class Meta:

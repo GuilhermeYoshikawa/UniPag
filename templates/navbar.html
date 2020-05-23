@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse" id="navbarSite">
 
           <ul class="navbar-nav ml-auto">
-              {% if user.is_authenticated %}
+              {% if logado != 0 %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'homeCliente'%}">Vendas</a>
               </li>
@@ -33,13 +33,13 @@
                     Conta
                 </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="meuPerfil/{{cliente.id}}">Meu Perfil</a>
-                  <a class="dropdown-item" href="#">Sair</a>
+                  <a class="dropdown-item" href="/meuPerfilCliente/{{cliente.id}}">Meu Perfil</a>
+                  <a class="dropdown-item" href="/logout/">Sair</a>
                 </div>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="login/">Login</a>
+                <a class="nav-link" href="/login/">Login</a>
               </li>
               {% endif %}
 

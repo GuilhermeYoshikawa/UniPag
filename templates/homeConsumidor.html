@@ -16,7 +16,7 @@
 
 
                 <div class="form-group col-md-12 pt-3">
-                    <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar compra">
+                    <input class="form-control" type="text" id="search" name="search" placeholder="Pesquisar venda">
                     <i class="fas fa-search pt-3" id="search-btn"></i>
                 </div>
             </form>
@@ -34,24 +34,26 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Código Interno</th>
-                    <th>Nome</th>
                     <th>Valor</th>
-                    <th>Quantidade</th>
+                    <th>Parcela</th>
+                    <th>Forma de pagamento</th>
+                    <th>Status</th>
+                    <th>Data do pedido</th>
                     <th class="actions">Ações</th>
                  </tr>
             </thead>
             <tbody>
-                {% for produto in produtos %}
+                {% for pedido in pedidos %}
                 <tr>
-                    <td>{{produto.id_produto}}</td>
-                    <td>{{produto.codigo_interno}}</td>
-                    <td>{{produto.nome}}</td>
-                    <td>R$ {{produto.valor}}</td>
-                    <td>{{produto.quantidade}}</td>
+                    <td>{{pedido.id_pedido}}</td>
+                    <td>R$ {{pedido.valor}}</td>
+                    <td>{{pedido.parcela}}x</td>
+                    <td>{{pedido.forma_pagamento}}</td>
+                    <td>{{pedido.status_pedido}}</td>
+                    <td>{{pedido.data_pedido}}</td>
                     <td class="actions">
-                        <a type="button" href="/produto/{{produto.id_produto}}" class="btn btn-outline-success">Visualizar</a>
-                    </td>
+						<a type="button" href="/pedido/{{pedido.id_pedido}}" class="btn btn-outline-success">Visualizar</a>
+					</td>
                 </tr>
                 {% endfor %}
 
