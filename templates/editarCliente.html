@@ -6,98 +6,22 @@
 
 {%block content %}
 
-<div class="offset-1 col-10 list-div">
-    <h1>Editar Perfil</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" class="btn btn-primary" value="Salvar">
-        <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
-    </form>
-</div>
-
-
 <div class="offset-1 col-10 list-div pt-3">
     <h1>Editar Perfil</h1>
 </div>
-
 
 <div class="col-md-10 offset-md-1 pt-3">
       <div class="card auth-card">
         <div class="card-body">
 
-          <form method="post">
+        <form method="post">
             {% csrf_token %}
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="id_email">E-mail</label>
-                <input type="text" name="email" value={{cliente.email}} maxlength="80" class="textinput textInput form-control" required id="id_email">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="id_senha">Confirme sua senha</label>
-                <input type="password" class="form-control" id="id_senha">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="id_razao_social">Razão Social</label>
-              <input type="text" name="razao_social" value={{cliente.razao_social}} maxlength="80" class="textinput textInput form-control" required id="id_razao_social">
-            </div>
-
-            <div class="form-group">
-              <label for="id_cnpj">CNPJ</label>
-              <input type="text" name="cnpj" id="id_cnpj" class="form-control" value={{cliente.cnpj}} disabled>
-            </div>
-
-            <div class="form-group">
-              <label for="id_telefone">Número do celular</label>
-              <input type="text" name="telefone" value={{cliente.telefone}} maxlength="80" class="textinput textInput form-control" required id="id_telefone">
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-10">
-                <label for="id_logradouro">Endereço</label>
-                <input type="text" name="logradouro" value={{cliente.logradouro}} maxlength="50" class="textinput textInput form-control" id="id_logradouro">              </div>
-              <div class="form-group col-md-2">
-                <label for="id_numero">Número</label>
-                <input type="text" name="numero" value={{cliente.numero}} maxlength="80" class="textinput textInput form-control" required id="id_numero">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="id_bairro">Bairro</label>
-              <input type="text" name="bairro" value={{cliente.bairro}} maxlength="50" class="textinput textInput form-control" required id="id_bairro">
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="id_cidade">Cidade</label>
-                <input type="text" name="cidade" value={{cliente.cidade}} maxlength="80" class="textinput textInput form-control" required id="id_cidade">
-              </div>
-              <div class="form-group col-md-4">
-                <label for="id_uf">Estado</label>
-                <input type="text" name="uf" value={{cliente.uf}} maxlength="80" class="textinput textInput form-control" required id="id_uf">
-              </div>
-              <div class="form-group col-md-2">
-                <label for="id_cep">CEP</label>
-                <input type="text" name="cep" value={{cliente.cep}} maxlength="80" class="textinput textInput form-control" required id="id_cep">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="id_complemento">Complemento</label>
-              <input type="text" name="complemento" maxlength="20" class="textinput textInput form-control" id="id_complemento">
-            </div>
-
-            <div class="card-title text-left pt-3">
-                <input type="submit" class="btn btn-success" value="Salvar">
-                <input type="button" value="Cancelar" class="btn btn-danger" onClick="history.go(-1)">
-            </div>
-
-          </form>
-
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-primary my-4 shadow" value="Salvar">
+            <input type="button" value="Cancelar" class="btn btn-danger shadow" onClick="history.go(-1)">
+        </form>
         </div>
       </div>
 </div>
-
 
 {% endblock %}

@@ -25,15 +25,26 @@
 
           <ul class="navbar-nav ml-auto">
               {% if logado != 0 %}
+			  {% if logado_classe == 'cliente' %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'homeCliente'%}">Vendas</a>
               </li>
+			  {% endif%}
+			  {% if logado_classe == 'consumidor' %}
+			  <li class="nav-item">
+                <a class="nav-link" href="{% url 'homeConsumidor'%}">Compras</a>
+              </li>
+			  {% endif%}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navDrop">
                     Conta
                 </a>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="/meuPerfilCliente/{{cliente.id}}">Meu Perfil</a>
+                  <a class="dropdown-item" href="/meuPerfil/{{cliente.id}}">Meu Perfil</a>
+                  <a class="dropdown-item" href="/logout/">Sair</a>
+                </div>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/meuPerfil/{{consumidor.id}}">Meu Perfil</a>
                   <a class="dropdown-item" href="/logout/">Sair</a>
                 </div>
               </li>

@@ -1,5 +1,4 @@
 {%extends 'base.html' %}
-{% load bootstrap %}
 
 {%block title %} Relatório - UniPag {% endblock %}
 
@@ -8,27 +7,79 @@
 <div id="main" class="container-fluid">
     <div id="top" class="row">
 
-    <div class="offset-1">
+    <div class="col-md-10 offset-md-1 pt-2">
+        <div class="card-body">
         <h2>Relatório de Vendas</h2>
     </div>
 
-    <div class="container dashboard">
-        <div class="col-lg-3 dashboard-box" id="dashboard-lastdays">
-            <h4>Vendas feitas nos últimos 30 dias</h4>
-            <span>{{ recentes }}</span>
-        </div>
-        <div class="col-lg-3 dashboard-box" id="dashboard-done">
-            <h4>Vendas concluídas</h4>
-            <span>{{ concluida }}</span>
-        </div>
-        <div class="col-lg-3 dashboard-box" id="dashboard-doing">
-            <h4>Vendas em andamento</h4>
-            <span>{{ andamento }}</span>
-        </div>
     </div>
 
-    </div>
+</div>
 
+<div class="container-fluid pt-3">
+     <div id="list" class="row">
+
+    <div class="table-responsive col-md-12">
+        <table class="table table-striped" cellspacing="0" cellpadding="0">
+
+            <thead>
+                <tr>
+                    <th>Pedido #</th>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Valor</th>
+					<th>Forma de pagamento</th>
+					<th>Parcelas</th>
+					<th>Data</th>
+
+                 </tr>
+            </thead>
+            <tbody>
+                {% for pedido in relatorio %}
+                <tr>
+					<td>{{pedido.3}}</td>
+					<td>{{pedido.1}}</td>
+					<td>{{pedido.2}}</td>
+					<td>{{pedido.10}}</td>
+					<td>{{pedido.11}}</td>
+					<td>{{pedido.4}}</td>
+					<td>{{pedido.6}}</td>
+					<td>{{pedido.5}}</td>
+					<td>{{pedido.8}}</td>
+
+
+
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+         </table>
+
+		 <!--<div class="container">
+		  <div class="row">
+			<div class="col">pedido</div>
+			<div class="col">produto</div>
+			<div class="col">Quantidade</div>
+			<div class="col">Forma de pagamento</div>
+			<div class="col">Data</div>
+			<div class="w-100"></div>
+			{% for pedido_produto_consumidor in pedidos_produtos_consumidores %}
+				<div class="col col-lg-5">{{pedido_produto_consumidor.id_pedido}}</div>
+				<div class="col col-lg-5">{{pedido_produto_consumidor.id_produto.nome}}</div>
+				<div class="col col-lg-5">{{pedido_produto_consumidor.quantidade}}</div>
+				<div class="col col-lg-5">{{pedido_produto_consumidor.id_pedido.forma_pagamento}}</div>
+				<div class="col col-lg-5">{{pedido_produto_consumidor.id_pedido.data}}</div>
+			{%endfor%}
+
+		  </div>
+		</div>-->
+
+     </div>
+ </div> <!-- /#list -->
+</div>
 </div>
 
 {% endblock %}

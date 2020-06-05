@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'unipag',
     'crispy_forms',
-    'django_filters',
-    'bootstrapform'
 
 ]
 

@@ -6,91 +6,87 @@
 
 {%block content %}
 
-<div class="offset-1 col-10 pt-3">
-    <h1>Meu Perfil</h1>
-</div>
-
-<div class="offset-1 col-10 pt-3">
-    <form method="post">
-        {% csrf_token %}
-
-        <table class="table my-3">
+<div class="col-md-10 offset-md-1 pt-2">
+        <div class="card-body">
+        <h1>Meu Perfil</h1>
 
 
-          <tbody>
+          <form method="post">
+              {% csrf_token %}
 
-            <tr>
-              <th scope="row">Razão Social</th>
-              <td></td><td></td>
-              <td>{{ razao_social}}</td>
-            </tr>
+              <table class="table my-5">
 
-            <tr>
-              <th scope="row">CNPJ</th>
-              <td></td><td></td>
-              <td>{{ cnpj }}</td>
-            </tr>
 
-            <tr>
-              <th scope="row">E-mail</th>
-              <td></td><td></td>
-              <td>{{ email }}</td>
-            </tr>
+                <tbody>
 
-            <tr>
-              <th scope="row">Número do celular</th>
-              <td></td><td></td>
-              <td>{{ telefone }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">Razão Social</th>
+                    <td></td><td></td>
+                    <td>{{ razao_social }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">Endereço</th>
-              <td></td><td></td>
-              <td>{{ logradouro }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">CNPJ</th>
+                    <td></td><td></td>
+                    <td>{{ cnpj }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">Número</th>
-              <td></td><td></td>
-              <td>{{ numero }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">E-mail</th>
+                    <td></td><td></td>
+                    <td>{{ email }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">Bairro</th>
-              <td></td><td></td>
-              <td>{{ bairro }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">Número do celular</th>
+                    <td></td><td></td>
+                    <td>{{ telefone }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">CEP</th>
-              <td></td><td></td>
-              <td>{{ cep }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">Número</th>
+                    <td></td><td></td>
+                    <td>{{ numero }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">Cidade</th>
-              <td></td><td></td>
-              <td>{{ cidade }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">Bairro</th>
+                    <td></td><td></td>
+                    <td>{{ bairro }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">Estado</th>
-              <td></td><td></td>
-              <td>{{ uf }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">CEP</th>
+                    <td></td><td></td>
+                    <td>{{ cep }}</td>
+                  </tr>
 
-            <tr>
-              <th scope="row">Complemento</th>
-              <td></td><td></td>
-              <td>{{ complemento }}</td>
-            </tr>
+                  <tr>
+                    <th scope="row">Cidade</th>
+                    <td></td><td></td>
+                    <td>{{ cidade }}</td>
+                  </tr>
 
-          </tbody>
+                  <tr>
+                    <th scope="row">Estado</th>
+                    <td></td><td></td>
+                    <td>{{ uf }}</td>
+                  </tr>
 
-        </table>
+                  <tr>
+                    <th scope="row">Complemento</th>
+                    <td></td><td></td>
+                    <td>{{ complemento }}</td>
+                  </tr>
 
-        <p><a class="btn btn-info my-4" href="/editarCliente/" role="button">Editar Perfil &raquo;</a></p>
-    </form>
+                </tbody>
+
+              </table>
+
+              <p><a class="btn btn-success btn-lg my-4 shadow" href="/editarCliente/" role="button">Editar Perfil &raquo;</a></p>
+
+          </form>
+        </div>
 </div>
 
 {% endblock %}
