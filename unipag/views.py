@@ -1,8 +1,13 @@
-from django.db import connection
+from datetime import date
+from io import BytesIO
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from reportlab.pdfgen import canvas  # Estamos importando o método canvas da biblioteca reportlab
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
 from .forms import ClienteForm, ConsumidorForm
-from .models import Pedido, Produto, Cliente, Consumidor
+from .models import Pedido, Produto, Cliente, Consumidor, PedidoProduto
+from django.db import connection
+from sisexterno.models import Cliente as ClienteSis
 
 
 # Estalogado() é um decorator. verifica se possui um ID na session se sim executa a view q chamou senao chama a view
@@ -16,6 +21,16 @@ def estalogado(myview):
                 return myview(request)
             else:
                 return myview(request, id)
+        return loginview(request)
+
+    return inner
+
+
+def estalogadreq(myview):
+    def inner(request):
+        id_session = request.session['logado']
+        if id_session:
+            return myview(request)
         return loginview(request)
 
     return inner
@@ -97,7 +112,7 @@ def cadastroCliente(request):
 
     if form.is_valid():
         form.save()
-        return redirect('login')
+        return redirect('/login/')
 
     return render(request, 'cadastroCliente.html', {'form': form})
 
@@ -106,7 +121,7 @@ def cadastroConsumidor(request):
     form = ConsumidorForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('login')
+        return redirect('/login/')
 
     return render(request, 'cadastroConsumidor.html', {'form': form})
 
@@ -266,17 +281,24 @@ def editarConsumidor(request):
     return render(request, "editarConsumidor.html", {'consumidor': consumidor, 'form': form})
 
 
+def produtoView(request, id):
+    produto = get_object_or_404(Produto, pk=id)
+    return render(request, 'produto.html', {'produto': produto})
+
+
 @estalogado
 def pedidoView(request, id):
-    pedido = get_object_or_404(Pedido, pk=id)
-    produto = get_object_or_404(Produto, pk=id)
-    return render(request, 'pedido.html', {'pedido': pedido, 'produto': produto})
+    logado_classe = request.session['logado_classe']
+    pedido_produto = \
+        PedidoProduto.objects.select_related('id_produto').select_related('id_pedido').filter(id_pedido=id)[0]
+
+    context = {'pedido_produto': pedido_produto, 'logado_classe': logado_classe}
+    return render(request, 'pedido.html', context)
 
 
 # Gera o relatório de vendas do cliente(from homeCliente)
 def relatorio(request):
-    cursor = connection.cursor()  # Cursor usado para executarmos querys sql diretamente no banco. Esse porem nao
-    # retorna objs usando as models
+    cursor = connection.cursor()  # Cursor usado para executarmos querys sql diretamente no banco. Esse porem nao retorna objs usando as models
     mes = request.POST['mes']
     ano = request.POST['ano']
     consumidor = request.POST['consumidor']
@@ -305,6 +327,17 @@ def relatorio(request):
                 "pe.id_pedido and pe.cliente_id_cliente = cli.id_cliente where MONTH(pe.data_pedido) = %s and YEAR("
                 "pe.data_pedido) = %s and cli.id_cliente = %s",
                 [mes, ano, id_logado])
+
+    elif len(consumidor) > 1:
+        print('consumidor mano')
+        qtd_pedidos = cursor.execute(
+            "select cs.id_consumidor, cs.nome, cs.sobrenome, pe.id_pedido, pe.valor, pe.parcela, pe.forma_pagamento, "
+            "pe.status_pedido, pe.data_pedido, pr.id_produto, pr.nome, pd.quantidade from consumidor cs join pedido "
+            "pe join produto pr join pedido_produto pd join cliente cli on pe.consumidor_id_consumidor = "
+            "cs.id_consumidor and pd.id_produto = pr.id_produto and pd.id_pedido = pe.id_pedido and "
+            "pe.cliente_id_cliente = cli.id_cliente where cs.nome like %s and cli.id_cliente = %s",
+            [consumidor, id_logado])
+
     else:
         qtd_pedidos = cursor.execute(
             "select cs.id_consumidor, cs.nome, cs.sobrenome, pe.id_pedido, pe.valor, pe.parcela, pe.forma_pagamento, "
@@ -321,3 +354,117 @@ def relatorio(request):
 
     context = {'relatorio': relatorio, 'logado_classe': logado_classe}
     return render(request, "relatorio.html", context)
+
+
+@estalogadreq
+def preparaCompra_verificalogado(request):
+    return preparaCompra(request)
+
+
+# Recebe o codigo do produto da pagina teste e prepara a compra
+def preparaCompra(request):
+    id_logado = request.session['logado']
+    codigo_produto = request.GET.get('codigo_produto')
+    quantidade = request.GET.get('qt')
+
+    # Reorganiza o parametro passado por url para exibir apenas os numeros
+    confusers = 'kl@'
+    for i in range(0, len(confusers)):
+        codigo_produto = codigo_produto.replace(confusers[i], "")
+        quantidade = quantidade.replace(confusers[i], "")
+
+    print(codigo_produto, quantidade)
+    # Carrega o produto pelo código interno fornecido pela pagina de cliente
+    produto = Produto.objects.filter(codigo_interno=codigo_produto)[0]
+    # Carrega o consumidor para mandar os dados do cartao para a proxima pagina
+    consumidor = Consumidor.objects.filter(id_consumidor=id_logado)[0]
+    # Carrega o consumidor para mandar os dados do cartao para a proxima pagina
+
+    context = {'produto': produto,
+               'consumidor': consumidor,
+               'quantidade': quantidade,
+               }
+
+    return render(request, 'compra.html', context)
+
+
+# Efetua uma compra no crédito
+def compraCredito(request):
+    id_logado = request.session['logado']
+    logado_classe = request.session['logado_classe']
+
+    # Dados do form cartao de credito
+    id_produto = request.POST['id_produto']
+    parcelas = request.POST['parcelas']
+    codigo_seguranca = request.POST['codigo_seguranca']
+    quantidade = request.POST['quantidade']
+
+    try:
+        consumidor = carrega_consumidor(id_logado)
+        # Carrega consumidor do banco externo com o mesmo id
+        consumidorsis = ClienteSis.objects.using('sisexterno').filter(id_cliente=id_logado)[0]
+
+    except:
+        print("Necessario tratar quando nao tiver consumidor logado")
+
+    if codigo_seguranca == consumidorsis.codigo_seguranca:
+        # Carrega do banco o produto q sera cadastrado
+        produto = Produto.objects.filter(id_produto=id_produto)[0]
+        # Prepara os dados e cadastra o novo pedido
+        valor_pedido = float(produto.valor) * float(quantidade)
+        status_pedido = 'Concluído' if parcelas == '1' else 'Em andamento'
+        hoje = date.today()
+        id_cliente = produto.id_cliente
+
+        pedido = Pedido(valor=valor_pedido, parcela=parcelas, forma_pagamento='Crédito', status_pedido=status_pedido,
+                        data_pedido=hoje, consumidor_id_consumidor=consumidor, cliente_id_cliente=id_cliente)
+        print('Cadastrando pedido', valor_pedido, parcelas, 'Crédito', status_pedido, hoje, consumidor, id_cliente)
+        pedido.save()
+
+        # Pega o id do ultimo pedido cadastrado no banco
+        id_pedido = Pedido.objects.latest('pk')
+
+        pedido_produto = PedidoProduto(quantidade=quantidade, id_produto=produto, id_pedido=id_pedido)
+        print('Cadastrando pedidoProduto', quantidade, id_produto, id_pedido)
+        pedido_produto.save()
+
+    else:
+        # colocar um message error
+        print("Caso o codigo de seguranca informado nao bata")
+
+    # POr enqt retornando index para testar funcionalidade
+    return index(request)
+
+
+def GeneratePDF(request):
+    id_produto = request.POST["id_produto"]
+    produto = Produto.objects.filter(id_produto=id_produto)[0]
+
+    try:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=boleto.pdf'
+        buffer = BytesIO()
+        c = canvas.Canvas(buffer, pagesize=A4)
+        c.setFont("Helvetica-Oblique", 22)
+        c.drawString(30, 750, 'Unipag')
+        c.setFont("Helvetica-Bold", 12)
+        c.drawString(30, 700, 'Boleto')
+        c.drawString(30, 680, 'Produto: ')
+        c.drawString(90, 680, '{}'.format(produto.nome))
+        c.drawString(30, 660, 'Valor: ')
+        c.drawString(80, 660, '{}'.format(produto.valor))
+        c.drawString(30, 640, 'Codigo Interno: ')
+        c.drawString(130, 640, '{}'.format(produto.codigo_interno))
+        c.drawString(30, 620, 'Categoria: ')
+        c.drawString(100, 620, '{}'.format(produto.categoria))
+        c.drawString(30, 600, 'Razão Social: ')
+        c.drawString(120, 600, '{}'.format(produto.id_cliente.razao_social))
+        c.save()
+        pdf = buffer.getvalue()
+        buffer.close()
+        response.write(pdf)
+        return response
+
+
+    except:
+        print('Erro ao gerar pdf')

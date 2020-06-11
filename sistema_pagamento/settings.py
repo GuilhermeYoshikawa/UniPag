@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'unipag',
     'crispy_forms',
+    'sisexterno',
 
 ]
 
@@ -85,9 +86,17 @@ DATABASES = {
         'PASSWORD': '',  # senha
         'HOST': '127.0.0.1',
         'PORT': '3306',  # colocar a porta padrão do mysql
+    },
+
+    'sisexterno': {
+        'ENGINE': 'django.db.backends.mysql',  # colocar o caminho do mysql
+        'NAME': 'sisexterno',  # colocar o nome do BD
+        'USER': 'root',
+        'PASSWORD': '',  # senha
+        'HOST': '127.0.0.1',
+        'PORT': '3306',  # colocar a porta padrão do mysql
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

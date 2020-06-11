@@ -14,4 +14,7 @@ urlpatterns = [
     path('editarCliente/', views.editarCliente, name='editarCliente'),
     path('editarConsumidor/', views.editarConsumidor, name='editarConsumidor'),
     path('logout/', views.logoutview, name='logoutview'),
+    path('preparaCompra/', views.preparaCompra_verificalogado, name='PreparaCompra_verificalogado'),
+    path('compraCredito/', views.compraCredito, name='compraCredito'),
+    path('GeneratePDF/', views.GeneratePDF, name='GeneratePDF')
 ]

@@ -20,3 +20,27 @@ $('#exampleModal').on('show.bs.modal', function (event) {
   modal.find('.modal-title').text('New message to ' + recipient)
   modal.find('.modal-body input').val(recipient)
 })
+
+
+
+<!-- JS usado apenas para nao permitir caracteres alem de numeros no input codigo_seguranca
+		O segundo metodo calcula a parcela
+ -->
+< language='Java'>
+function SomenteNumero(e){
+    var tecla=(window.event)?event.keyCode:e.which;
+    if((tecla>47 && tecla<58)) return true;
+    else{
+    	if (tecla==8 || tecla==0) return true;
+	else  return false;
+    }
+}
+
+function alimentarCampo() {
+	var preco = {{produto.valor}}
+	var quantd = {{quantidade}}
+	var minhaLista = document.getElementById("parcelas");
+	document.getElementById("valorparcela").value = (preco / minhaLista.options[minhaLista.selectedIndex].value).toFixed(2)*quantd;
+}
+
+
